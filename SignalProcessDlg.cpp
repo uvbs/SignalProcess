@@ -36,7 +36,6 @@ CSignalProcessDlg::CSignalProcessDlg(CWnd* pParent /*=NULL*/)
 	dYMaxVal = 0.0;
 	m_OptTimes = 1;
 	m_iavgN = 5; //默认内部平均点数为5
-
 }
 
 CSignalProcessDlg::~CSignalProcessDlg()
@@ -70,21 +69,11 @@ BEGIN_MESSAGE_MAP(CSignalProcessDlg, CDialog)
 	ON_WM_CLOSE()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
-
 	ON_NOTIFY(NM_RCLICK, IDC_DATAREPORT, &CSignalProcessDlg::OnRClickDatareport)
 	ON_NOTIFY(NM_DBLCLK, IDC_DATAREPORT, &CSignalProcessDlg::OnDblclkDatareport)
-	ON_COMMAND(ID_ADDPEAK,AddNewPeak)
-	ON_COMMAND(ID_DELPEAK,DelOnePeak)
 	ON_WM_TIMER()
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CSignalProcessDlg::OnCbnSelchangeMoreAvgPara)
-//	ON_BN_CLICKED(IDC_FUNCTEST, &CSignalProcessDlg::OnBnClickedFunctest)
-//	ON_BN_CLICKED(IDC_BUTTON1, &CSignalProcessDlg::OnBnClickedDateLoadTest)
 	ON_BN_CLICKED(IDC_READSHOW, &CSignalProcessDlg::OnBnClickedReadshow)
-//	ON_BN_CLICKED(IDC_DELTEST, &CSignalProcessDlg::OnBnClickedDeltest)
-//	ON_BN_CLICKED(IDC_COLTEST, &CSignalProcessDlg::OnBnClickedColtest)
-//	ON_BN_CLICKED(IDC_SHOWHIDETEST, &CSignalProcessDlg::OnBnClickedShowhidetest)
-//	ON_BN_CLICKED(IDC_BUTTON2, &CSignalProcessDlg::OnRealTimeTest)
-//	ON_BN_CLICKED(IDC_PREPROCESS, &CSignalProcessDlg::OnPreprocessConfigArgs)
 	ON_BN_CLICKED(IDC_FIRSTSCAN, &CSignalProcessDlg::OnFirstScan)
 	ON_BN_CLICKED(IDC_SECONDSCAN, &CSignalProcessDlg::OnSecondScan)
 	ON_BN_CLICKED(IDC_THIRDSCAN, &CSignalProcessDlg::OnThirdScan)
@@ -99,7 +88,6 @@ END_MESSAGE_MAP()
 
 
 // CSignalProcessDlg 消息处理程序
-
 BOOL CSignalProcessDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -238,188 +226,6 @@ BOOL CSignalProcessDlg::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
-//----------------------------------------------------------------------------------------------
-// 新写类表达数据结构，算法均分布计算
-//----------------------------------------------------------------------------------------------
-void CSignalProcessDlg::ClearLineOn3rdCtrl()
-{
-	//m_ChcarCtrlPeakSeek.EnableRefresh(false);
-	//m_pPoint->ClearSerie();					//清空上次各起点终点
-	//m_pPeak->ClearSerie();					//清空上次各波峰波谷点
-	//m_pLinePeakSeek->ClearSerie();          //清空上次曲线
-
-	//if (m_phemline.size()!=0) //清除基线
-	//{
-	//	for (unsigned i=0; i<m_phemline.size(); i++)
-	//		m_phemline[i]->ClearSerie();  
-	//}
-
-	//if (m_pDividePeakBaseLine.size()!=0) //清除垂直分峰的连线
-	//{
-	//	typedef std::list<CChartLineSerie*>::iterator LI;
-	//	for (LI iter=m_pDividePeakBaseLine.begin(); iter!=m_pDividePeakBaseLine.end(); iter++)
-	//		(*iter)->ClearSerie();
-	//	m_pDividePeakBaseLine.clear();
-	//}
-
-	//if (m_pTagline.size()!=0)//清除之前的标记线
-	//{
-	//	typedef std::list<CChartLineSerie*>::iterator LI;
-	//	for (LI iter=m_pTagline.begin(); iter!=m_pTagline.end(); iter++)
-	//		(*iter)->ClearSerie();
-	//	m_pTagline.clear();
-	//}
-
-	//m_ChcarCtrlPeakSeek.EnableRefresh(true);
-	
-}
-void CSignalProcessDlg::DrawLineOn3rdCtrl()
-{
-	
-	//m_ChcarCtrlPeakSeek.EnableRefresh(false);
-	//m_pLinePeakSeek->SetColor(RGB(200, 200, 200)); //设置曲线的颜色(白灰)
-	//CChartAxis* m_pAxisSelect;
-	//CSuperChartCtrl* pParent = &m_ChcarCtrlPeakSeek;
-	//pParent->SetBackColor(RGB(60, 60, 60)); //设置背景颜色
-	//m_pAxisSelect = pParent->GetLeftAxis(); //设置Y坐标
-	//m_pAxisSelect->SetAutomatic(false);
-	//m_pAxisSelect->SetCoordinate(dYMinVal*1.0, dYMaxVal*1.0, COORDINATE_AUTOCALC); //_SetMinMax(dYMinVal*1.0, dYMaxVal*1.1);
-	//m_pAxisSelect = pParent->GetBottomAxis(); //设置X坐标
-	//m_pAxisSelect->SetAutomatic(false);
-	//m_pAxisSelect->SetCoordinate(dXMinVal*1.0, dXMaxVal*1.0, COORDINATE_AUTOCALC); //_SetMinMax(dXMinVal, dXMaxVal);
-	//m_pPoint->SetColor(RGB(255, 70, 70)); //设置标起点落点的颜色(红色)
-	//m_pPeak->SetColor (RGB(0, 138, 138)); //设置标波峰波谷点的颜色(兰色)
-	//if (m_pAxisSelect==NULL) return;
-	//m_pAxisSelect->SetVisible(true);
-
-	//m_pLinePeakSeek->m_vPoints.InitPoints(m_OrigSema.size());
-	//for (size_t i=0; i<m_OrigSema.size();++i)
-	//{//画曲线
-	//	//m_pLinePeakSeek->AddPoint(m_OrigSema[i].x, m_OrigSema[i].y);
-	//	m_pLinePeakSeek->m_vPoints.AddPoint(m_OrigSema[i].x, m_OrigSema[i].y);
-	//}
-
-	//m_pPoint->m_vPoints.InitPoints(m_Peak.size());
-	//m_pPeak->m_vPoints.InitPoints(m_Peak.size());
-	//for (unsigned i=0; i<m_Peak.size(); ++i)
-	//{//标出起点落点
-	//	double x[]={m_Peak[i].StartSema.x, m_Peak[i].FinSema.x};
-	//	double y[]={m_Peak[i].StartSema.y, m_Peak[i].FinSema.y};
-	//	m_pPoint->m_vPoints.AddPoints(x, y, 2);
-	//	m_pPeak->m_vPoints.AddPoint(m_Peak[i].PeakSema.x, m_Peak[i].PeakSema.y);//波峰波谷
-	//}
-
-	//m_ChcarCtrlPeakSeek.EnableRefresh(true);
-	//m_ChcarCtrlPeakSeek.RefreshCtrl();	
-}
-void CSignalProcessDlg::DrawBaseLineOn3rdCtrl(bool isDividePeak)
-{
-	//bool isdraw = true;
-	////const unsigned nodeSemaSize = NodeSema.size();
-	//const unsigned PeakSize = m_Peak.size();
-	//if ((!isDividePeak) && (PeakSize!=0)) //非垂直分峰
-	//{
-	//	for (unsigned i=0; i<PeakSize; ++i)
-	//	{//创建画直线指针
-	//		CChartLineSerie* line;  
-	//		line = m_ChcarCtrlPeakSeek.CreateLineSerie(); 
-	//		line->SetColor(RGB(210, 0, 0)); //设置基线颜色
-	//		m_phemline.push_back(line);
-	//	}
-	//	if (m_phemline.size()==0)
-	//	{
-	//		isdraw = false;
-	//	}
-	//	else
-	//	{
-	//		const unsigned m_phemlineSize = m_phemline.size();
-	//		for (unsigned i=0; i<PeakSize; ++i)
-	//		{//连接直线
-	//			m_phemline[i]->m_vPoints.InitPoints(4);
-	//			double dx[] = { m_Peak[i].StartSema.x, m_Peak[i].FinSema.x };
-	//			double dy[] = { m_Peak[i].StartSema.y, m_Peak[i].FinSema.y };
-	//			m_phemline[i]->m_vPoints.AddPoints(dx, dy, 2);   //画基线
-	//		}
-	//	}
-	//}
-
-	//else if (PeakSize!=0 && isdraw)
-	//{
-	//	unsigned nodeIndex = 0;  //连垂直分峰线的索引
-	//	unsigned bg = 0;
-	//	unsigned ed = bg;
-	//	bool isSignalWave = false;
-	//	for (; bg<PeakSize; ++bg)
-	//	{
-	//		if (m_Peak[bg].Type==1 || m_Peak[bg].Type==-1)
-	//		{
-	//			ed = bg;
-	//			isSignalWave = true;
-	//		}
-	//		else /*(Peak[bg].Type>1)*/ //重叠波峰
-	//		{
-	//			ed = bg;
-	//			int mark = m_Peak[bg].Type;
-	//			while (ed<PeakSize && m_Peak[ed].Type==mark)
-	//			{
-	//				if (ed+1==PeakSize && m_Peak[PeakSize-1].Type==mark)
-	//				{
-	//					break;
-	//				}
-	//				ed++;
-	//				if (m_Peak[ed].Type!=mark)
-	//				{
-	//					ed--;
-	//					break;
-	//				}
-	//			}
-	//		}
-	//		if (isSignalWave && nodeIndex!=PeakSize) //画单峰分峰线
-	//		{
-	//			CChartLineSerie* line;  
-	//			line = m_ChcarCtrlPeakSeek.CreateLineSerie();
-	//			line->SetColor(RGB(210, 0, 0)); //设置基线颜色
-	//			double dx[] = { m_Peak[nodeIndex].StartSema.x, m_Peak[nodeIndex].FinSema.x };
-	//			double dy[] = { m_Peak[nodeIndex].StartSema.y, m_Peak[nodeIndex].FinSema.y };
-	//			nodeIndex++;
-	//			line->m_vPoints.InitPoints(4);
-	//			line->m_vPoints.AddPoints(dx, dy, 2);   
-	//			isSignalWave = false;
-	//			m_phemline.push_back(line);
-	//		}
-	//		else if (!isSignalWave && nodeIndex!=PeakSize) //画连续峰分峰线
-	//		{
-	//			for (; bg!=ed; ++bg)
-	//			{
-	//				CChartLineSerie* line1/*, *line2, *line3*/;  
-	//				line1 = m_ChcarCtrlPeakSeek.CreateLineSerie(); 
-	//				//line2 = m_ChcarCtrlPeakSeek.CreateLineSerie();
-	//				double dx[] = { m_Peak[nodeIndex].StartSema.x, m_Peak[nodeIndex].FinSema.x };
-	//				double dy[] = { m_Peak[nodeIndex].StartSema.y, m_Peak[nodeIndex].FinSema.y };
-	//				nodeIndex++;
-	//				line1->SetColor(RGB(210, 0, 0)); //设置基线颜色
-	//				line1->m_vPoints.InitPoints(4);
-	//				line1->m_vPoints.AddPoints(dx, dy, 2);
-	//				m_phemline.push_back(line1);
-
-	//				if (bg+1==ed)
-	//				{
-	//					//line3 = m_ChcarCtrlPeakSeek.CreateLineSerie();
-	//					double dxx[] = { m_Peak[nodeIndex].StartSema.x, m_Peak[nodeIndex].FinSema.x };
-	//					double dyy[] = { m_Peak[nodeIndex].StartSema.y, m_Peak[nodeIndex].FinSema.y };
-	//					nodeIndex++;
-	//					line1->m_vPoints.InitPoints(4);
-	//					line1->m_vPoints.AddPoints(dxx, dyy, 2);
-	//					m_phemline.push_back(line1);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-	//m_ChcarCtrlPeakSeek.EnableRefresh(true);
-	//m_ChcarCtrlPeakSeek.RefreshCtrl();	
-}
 void CSignalProcessDlg::DrawDividePeakBaseLine(bool isDividePeak)
 {
 	if (!isDividePeak)
@@ -452,33 +258,33 @@ void CSignalProcessDlg::DrawDividePeakBaseLine(bool isDividePeak)
 	m_ChcarCtrlPeakSeek.EnableRefresh(true);
 
 }
-void CSignalProcessDlg::DrawTagLineOn3rdCtrl()
-{	
-	//画标记线
-	const unsigned TagPointSize = m_TagPoint.size();
-	for (unsigned i=0; i<TagPointSize/2; ++i)
-	{//创建画标记线指针
-		CChartLineSerie* line; 
-		line = m_ChcarCtrlPeakSeek.CreateLineSerie(); 
-		line->SetColor(RGB(74, 165, 255)); //设置标记线颜色
-		m_pTagline.push_back(line);
-	}
-	const unsigned m_pTaglineSize = m_pTagline.size();
-	typedef std::list<CChartLineSerie*>::iterator LI;
-	unsigned i = 0;
-	for (LI iter=m_pTagline.begin(); iter!=m_pTagline.end(); iter++)
-	{//连接标记线
-		double dx[] = { m_TagPoint[i].x,  m_TagPoint[i+1].x };
-		double dy[] = { m_TagPoint[i].y,  m_TagPoint[i+1].y };
-		i+=2;
-		(*iter)->AddPoints(dx, dy, 2);   //标记线
-	}
-	m_ChcarCtrlPeakSeek.RefreshCtrl();	
-}
+//void CSignalProcessDlg::DrawTagLineOn3rdCtrl()
+//{	
+	////画标记线
+	//const unsigned TagPointSize = m_TagPoint.size();
+	//for (unsigned i=0; i<TagPointSize/2; ++i)
+	//{//创建画标记线指针
+	//	CChartLineSerie* line; 
+	//	line = m_ChcarCtrlPeakSeek.CreateLineSerie(); 
+	//	line->SetColor(RGB(74, 165, 255)); //设置标记线颜色
+	//	m_pTagline.push_back(line);
+	//}
+	//const unsigned m_pTaglineSize = m_pTagline.size();
+	//typedef std::list<CChartLineSerie*>::iterator LI;
+	//unsigned i = 0;
+	//for (LI iter=m_pTagline.begin(); iter!=m_pTagline.end(); iter++)
+	//{//连接标记线
+	//	double dx[] = { m_TagPoint[i].x,  m_TagPoint[i+1].x };
+	//	double dy[] = { m_TagPoint[i].y,  m_TagPoint[i+1].y };
+	//	i+=2;
+	//	(*iter)->AddPoints(dx, dy, 2);   //标记线
+	//}
+	//m_ChcarCtrlPeakSeek.RefreshCtrl();	
+//}
 void CSignalProcessDlg::OutputReport()
 {
 	// 填充表格
-	m_Report.DeleteAllItems(); //全清空一次
+	m_Report.DeleteAllItems();  
 	const int PeakSize = m_Peak.size();
 	for (int i=0; i<PeakSize; ++i)
 	{
@@ -624,20 +430,7 @@ void CSignalProcessDlg::AddStringsOn3rdCtrl()
 }
 void CSignalProcessDlg::OnRClickDatareport(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	//LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	//CMenu mainMenu, popMenu;
-	//mainMenu.CreatePopupMenu();
-	//popMenu.CreatePopupMenu();
-	//mainMenu.AppendMenu(MF_POPUP,(UINT)popMenu.m_hMenu, _T("右键弹出式菜单"));
-	////popMenu.AppendMenu(MF_STRING, ID_BASELINE, _T("基线调整"));
-	//popMenu.AppendMenu(MF_STRING, ID_DELPEAK,  _T("参数删峰"));
-	//popMenu.AppendMenu(MF_STRING, ID_ADDPEAK,  _T("参数增峰"));
-	////SetMenu(&popMenu);
-	//DWORD dwPos = GetMessagePos();
-	//CPoint pt(LOWORD(dwPos), HIWORD(dwPos));  
-	//mainMenu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERTICAL, pt.x, pt.y, this);
-	//mainMenu.DestroyMenu();
-	//*pResult = 0;
+	;
 }
 void CSignalProcessDlg::OnDblclkDatareport(NMHDR *pNMHDR, LRESULT *pResult)  
 {
@@ -646,77 +439,12 @@ void CSignalProcessDlg::OnDblclkDatareport(NMHDR *pNMHDR, LRESULT *pResult)
 	POSITION pos = m_Report.GetFirstSelectedItemPosition(); //获得当前选中报表内的数据
 	if(pos!=NULL)
 	{
-		//int Item = m_Report.GetNextSelectedItem(pos);
-		//CString szPeakNo = m_Report.GetItemText(Item, 0); //第1数据波峰编号
-		//CParaAdjust ParaAdjDlg;
-		//ParaAdjDlg.m_DlgStyle = 1;
-		//int PeakNo = _tstoi(szPeakNo);
-		//ParaAdjDlg.m_PeakNo = PeakNo;
-		//ParaAdjDlg.m_StartSema = m_Peak[PeakNo-1].StartSema.x;
-		//ParaAdjDlg.m_FinSema = m_Peak[PeakNo-1].FinSema.x;
-		//if (ParaAdjDlg.DoModal()==IDOK) 
-		//{
-		//	int a = ParaAdjDlg.m_PeakNo;
-		//	double s = ParaAdjDlg.m_StartSema;
-		//	double f = ParaAdjDlg.m_FinSema;
-		//	Para para(a, s, f);
-		//	neo_BaseLineAdj(m_OrigSema, m_Peak, para);
-		//	CString opt(_T("modify"));
-		//	SaveConfigParameter(opt, para);
-		//}
-		//ClearLineOn3rdCtrl();
-		//DrawBaseLineOn3rdCtrl(false);
-		//DrawLineOn3rdCtrl();
-		//OutputReport();
+		;
 	}
 	
 	*pResult = 0;
 }
 
-VOID CSignalProcessDlg::AddNewPeak()  //参数增峰
-{
-	//CParaAdjust ParaAdjDlg;
-	//ParaAdjDlg.m_DlgStyle = 2;
-	//ParaAdjDlg.m_PeakNo = 0;
-	//ParaAdjDlg.m_StartSema = 0;
-	//ParaAdjDlg.m_FinSema = 0;
-	//if (ParaAdjDlg.DoModal()==IDOK) 
-	//{
-	//	int a = ParaAdjDlg.m_PeakNo;
-	//	double s = ParaAdjDlg.m_StartSema;
-	//	double f = ParaAdjDlg.m_FinSema;
-	//	Para para(a, s, f);
-	//	neo_AddNewPeak(m_OrigSema, m_Peak, para);
-	//	CString opt(_T("add"));
-	//	SaveConfigParameter(opt, para);
-	//}
-	//ClearLineOn3rdCtrl();
-	//DrawBaseLineOn3rdCtrl(false);
-	//DrawLineOn3rdCtrl();
-	//OutputReport();
-}
-VOID CSignalProcessDlg::DelOnePeak()
-{
-	//CParaAdjust ParaAdjDlg;
-	//ParaAdjDlg.m_DlgStyle = 3;
-	//ParaAdjDlg.m_StartSema = 0;
-	//ParaAdjDlg.m_FinSema = 0;
-	////ParaAdjDlg.m_iPeakNo.SetReadOnly(TRUE);
-	//if (ParaAdjDlg.DoModal()==IDOK) 
-	//{
-	//	//int a = ParaAdjDlg.m_PeakNo;
-	//	double s = ParaAdjDlg.m_StartSema;
-	//	double f = ParaAdjDlg.m_FinSema;
-	//	Para para(s, f);
-	//	neo_DelOnePeak(m_OrigSema, m_Peak, para);
-	//	CString opt(_T("delete"));
-	//	SaveConfigParameter(opt, para);
-	//}
-	//ClearLineOn3rdCtrl();
-	//DrawBaseLineOn3rdCtrl(false);
-	//DrawLineOn3rdCtrl();
-	//OutputReport();
-}
 VOID CSignalProcessDlg::SaveConfigParameter(CString &opt, const Para &para)
 {
 	//CString szConfig[5]; 
@@ -793,206 +521,17 @@ void CSignalProcessDlg::OnCbnDropdownSeries() //内部连续判点的CCombox下拉时事件
 		m_Series.DeleteString(m_Series.GetCount()-1);
 	}
 }
-//void CSignalProcessDlg::OnBnClickedFunctest()
-//{
-//	if (m_PeakSeak.m_OrigSema.size()==0)
-//		return;
-//
-//	bool isDividePeak = false; //是否开启垂直分峰
-//	CButton *pBtnVDP = static_cast<CButton*>(GetDlgItem(IDC_VDIVIDEPEAK));
-//	if (pBtnVDP!=NULL)
-//	{
-//		if (pBtnVDP->GetCheck()==BST_CHECKED)
-//			isDividePeak = true;  //输入变量，是否开启垂直分峰
-//		else
-//			isDividePeak = false;
-//	}
-//	else
-//		return;
-//	bool hasNagetiveSpike = true;     //考虑是否有负峰情况
-//	CButton *pBtnHNS = static_cast<CButton*>(GetDlgItem(IDC_NAGETIVESPIKE));
-//	if (pBtnHNS!=NULL)
-//	{
-//		if (pBtnHNS->GetCheck()==BST_CHECKED)
-//			hasNagetiveSpike = true;
-//		else 
-//			hasNagetiveSpike = false;
-//	}
-//	else
-//		return;
-//	CString szSlope;    //要求输入门限斜率
-//	m_Slope.GetWindowText(szSlope);
-//	double threshold = _wtof(szSlope);
-//	if (szSlope==_T("5000")||szSlope.IsEmpty())
-//		threshold = 5000/*37800*/;         //默认门限斜率
-//	CString szHalfPeakWidth;    //要求输入半峰宽
-//	m_HalfPeakWidth.GetWindowText(szHalfPeakWidth);
-//	double halfPeakWidth = _wtof(szHalfPeakWidth);
-//	if (szHalfPeakWidth==_T("0.00")||szHalfPeakWidth.IsEmpty())
-//		halfPeakWidth = 0.00;  //默认半峰宽
-//	CString szPeakArea;    //要求输入峰面积
-//	m_PeakArea.GetWindowText(szPeakArea);
-//	double peakArea = _wtof(szPeakArea);
-//	if (szPeakArea==_T("无限大")||szPeakArea.IsEmpty())
-//		peakArea = 0.0;         //默认最小峰面积
-//	int series = m_Series.GetCurSel()+1;  //几点平均，内部调节参数
-//	if (series == 0) series = 3;
-//	m_PeakSeak.SetParameter(isDividePeak,hasNagetiveSpike,threshold,halfPeakWidth,peakArea,series,m_iavgN);	// 设置寻峰参数
-//
-//	DWORD StartTime = ::GetTickCount();
-////	m_PeakSeak.ClearLine();	
-//	DWORD FinishTime = ::GetTickCount();
-//	DWORD  RunTime = FinishTime - StartTime;
-//	CString szRunTime;
-//	szRunTime.Format(_T("%u"), RunTime);
-//	m_RunTime.SetWindowText(szRunTime);
-////	m_PeakSeak.SetChartCtrl(&m_ChcarCtrlPeakSeek);
-////	m_PeakSeak.SignalProc();			//(接口)信号处理
-////	m_PeakSeak.SignalDisplay();
-//	m_PeakSeak.GetPeakResult(m_Peak);   //获得结果数据
-//	OutputReport();
-//}
-//void CSignalProcessDlg::OnBnClickedDateLoadTest()
-//{
-//	CShowHide ShowHide;
-////	m_PeakSeak.GetShowHide(ShowHide.g1_IsShow, ShowHide.g2_IsShow);
-//	if (ShowHide.DoModal()==IDOK)
-//	{
-//		DWORD StartTime = ::GetTickCount();
-//
-////		m_PeakSeak.SetShowHide(ShowHide.g1_IsShow, ShowHide.g2_IsShow);
-////		m_PeakSeak.SetChartCtrl(&m_ChcarCtrlPeakSeek);	// 传入控件指针
-////		m_PeakSeak.ClearLine();
-////		m_PeakSeak.SignalDisplay();
-//
-//		DWORD FinishTime = ::GetTickCount();
-//		DWORD  RunTime = FinishTime - StartTime;
-//		CString szRunTime;
-//		szRunTime.Format(_T("%u"), RunTime);
-//		m_RunTime.SetWindowText(szRunTime);
-//	}
-//}
-/*void CSignalProcessDlg::OnBnClickedDeltest()
-{   */                                       
-	//m_PeakSeak.ClearOrigCurve();      
-	//m_PeakSeak.ClearStartFinishPoints();
-	//m_PeakSeak.ClearBaseLine();
-//}
-//void CSignalProcessDlg::OnBnClickedColtest()
-//{
-	//CColorDialog coldlg;
-//	//if (coldlg.DoModal()==IDOK)
-//	{
-////		m_PeakSeak.m_BaseLineColor = coldlg.GetColor();
-//	}
-////	m_PeakSeak.SetBaseLineColor(coldlg.GetColor());
-//}
-//void CSignalProcessDlg::OnBnClickedShowhidetest()
-//{
-//}
-//void CSignalProcessDlg::OnRealTimeTest()
-//{
-	//static bool onlyOne = true;
-	//static int InputNums = 0;
-	//static double threshold = 1.0f;
-	//static int series = 3;
-	//static bool hasMinusPeak = false; 
-	//static DWORD totalRunTime = 0;
-	//const int STEPNUM = 100;
-
-
-	//if (onlyOne)
-	//{
-	//	CFileDialog flDlg(TRUE,_T("csv"),_T(""),OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
-	//		_T("csv格式色谱信号文件|*.csv||"));
-	//	if (flDlg.DoModal()==IDOK)
-	//	{
-	//		m_PeakSeak.ClearSemaDate();
-	//		m_CsvFilePathName = flDlg.GetPathName();
-	//		onlyOne = !onlyOne;
-	//		m_RealTime.SetSemaDate(m_CsvFilePathName);		// 输入信号量
-	//		m_RealTime.SetChartCtrl(&m_ChcarCtrlPeakSeek);	// 传入控件指针
-	//		m_RealTime.RT_SetProcessParameter(true, true, 5, 3, threshold, 0.0f, 0.0f);
-
-	//		hasMinusPeak = true;     //考虑是否有负峰情况
-	//		CButton *pBtnHNS = static_cast<CButton*>(GetDlgItem(IDC_NAGETIVESPIKE));
-	//		if (pBtnHNS!=NULL)
-	//		{
-	//			if (pBtnHNS->GetCheck()==BST_CHECKED)
-	//				hasMinusPeak = true;
-	//			else 
-	//				hasMinusPeak = false;
-	//		}
-	//		else
-	//			return;
-
-	//		CString szSlope;    //要求输入门限斜率
-	//		m_Slope.GetWindowText(szSlope);
-	//		threshold = _wtof(szSlope);
-	//		if (szSlope==_T("5000")||szSlope.IsEmpty())
-	//			threshold = 1.0f;         //默认门限斜率
-	//		series = m_Series.GetCurSel()+1;  //几点平均，内部调节参数
-	//		if (series == 0) series = 3;
-
-	//		SetTimer(1, 200, NULL);
-	//	}
-	//	else
-	//		return;
-	//}
-
-	//if (static_cast<unsigned>(InputNums+STEPNUM) > m_RealTime.m_OrigSema.size()) //边界控制，停止计时器
-	//{
-	//	KillTimer(1);
-	//	Sleep(500);
-	//	CString szTotalRunTime;
-	//	szTotalRunTime.Format(_T("%u"), totalRunTime);
-	//	CString szMsg(_T("总共运行了："));
-	//	MessageBox(szMsg+szTotalRunTime);
-	//	onlyOne = true;
-	//	InputNums = 0;
-	//	return;
-	//}
-
-	//DWORD StartTime = ::GetTickCount(); //时间统计开始
-
-	//m_RealTime.ClearRealTimeCurve();
-	//m_RealTime.SetRealTimeData(InputNums, InputNums+STEPNUM);
-	//InputNums += STEPNUM;
-	//m_RealTime.RT_Averaging();
-	////RealTime_Averaging(m_RealTime.m_InputSema, m_RealTime.m_OutputSema, m_RealTime.m_RTTotalAvgSema, m_RealTime.m_RTTotalSema, m_iavgN);
-
-	//static std::vector<double> firstOrder;	//斜率存放容器
-	//static double maxSlope = 0.0;
-	//m_RealTime.RT_AvgDataSlope();
-	//m_RealTime.RT_PeakSearch();
-	//m_RealTime.RT_PeakReturn();
-	////RealTime_GetAvgDataSlope(m_RealTime.m_OutputSema, m_RealTime.m_RTTotalAvgSema, firstOrder, maxSlope);
-	////RealTime_GetpeakSearch_v2(m_RealTime.m_OutputSema, firstOrder, m_RealTime.m_RTTotalAvgSema, m_RealTime.m_RTPeak,threshold, hasMinusPeak, false, series);
-	////RealTime_RestorePeakData(m_RealTime.m_OutputSema,m_RealTime.m_RTTotalSema, m_RealTime.m_RTPeak, m_iavgN, threshold);  
-	//m_RealTime.DrawRealTimeCurve();
-	//m_RealTime.DrawRealTimeResult();
-
-	//DWORD FinishTime = ::GetTickCount(); //时间统计结束
-	//DWORD  RunTime = FinishTime - StartTime;
-	//totalRunTime += RunTime;
-	//CString szRunTime;
-	//szRunTime.Format(_T("%u"), RunTime);
-	//m_RunTime.SetWindowText(szRunTime);
-//}
+	
 void CSignalProcessDlg::OnTimer(UINT_PTR nIDEvent)
 {
-//	OnRealTimeTest();
+
 	CDialog::OnTimer(nIDEvent);
 }
-void CSignalProcessDlg::OnConfigArgsTest()
-{
 
-}
+// 界面主要测试功能
 
-
-//数据读入
-void CSignalProcessDlg::OnBnClickedReadshow()
-{
+void CSignalProcessDlg::OnBnClickedReadshow() 
+{ //数据读入
 	CFileDialog flDlg(TRUE,_T("csv"),_T(""),OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
 		_T("csv格式色谱信号文件|*.csv||"));
 	if (flDlg.DoModal()==IDOK)
@@ -1016,7 +555,6 @@ void CSignalProcessDlg::OnBnClickedReadshow()
 	szRunTime.Format(_T("%u"), RunTime);
 	m_RunTime.SetWindowText(szRunTime);
 
-//	InitSliderCtrl();
 	GetDlgItem(IDC_PREPROCESS)->EnableWindow(TRUE); //按键active
 }
 

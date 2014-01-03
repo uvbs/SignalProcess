@@ -1,7 +1,7 @@
 #pragma once
 #include "ConfigArgument.h"
 
-#include "Common\MyInclude\Base_SampleChart.h"
+//#include "Common\MyInclude\Base_SampleChart.h"
 //#include "Common\MyInclude\Base_AnalysisSample.h"
 
 #include <deque>
