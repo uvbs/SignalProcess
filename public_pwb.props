@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>$(PWB_HOME)\Common;$(PWB_HOME)\Common\Include;$(PWB_HOME)\Common\MyInclude;$(PWB_HOME)\Components;$(PWB_HOME)\Components\Ultimate Grid\Include;$(PWB_HOME)\Components\UltimateToolbox\include;$(PWB_HOME)\Components\dbxml-2.4.16\include;$(PWB_HOME)\Components\TreeControl\src;$(PWB_HOME)\Components\SuperChartCtrl\H;$(PWB_HOME)\Components\CPPMessageBox;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LibraryPath>$(PWB_HOME)\Common_Libs;$(PWB_HOME)\Components\UltimateToolbox\lib\libs;$(LibraryPath)</LibraryPath>
+    <IntDir>$(PWB_TEMP)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>
